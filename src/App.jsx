@@ -1,8 +1,9 @@
  import React from 'react'
+import AppRouter from './routes/Routes'
  
  const App = () => {
    return (
-        <button className="btn btn-neutral">Neutral</button>
+        <AppRouter/>
    )
  }
  
