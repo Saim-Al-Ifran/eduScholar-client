@@ -1,6 +1,7 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Main from '../layouts/Main';
+import Home from '../pages/Home/Home';
 
 const AppRouter = () => {
   return (
@@ -8,7 +9,9 @@ const AppRouter = () => {
  
     <Routes>
       <Route path="/" element={<Main />}>
-        <Route index element={<h1>Home</h1>} />
+        <Route index element={<Home/>} />
+        <Route path="/all_scholarship" element={<h1>All Scholarship</h1>} />
+       
         {/* <Route path="room/:id" element={<PrivateRoute><RoomDetails /></PrivateRoute>} /> */}
       </Route>
 
