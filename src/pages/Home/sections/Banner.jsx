@@ -1,5 +1,6 @@
 import { Carousel, Button } from "@material-tailwind/react";
 
+
 const image1 = 'https://images.collegedunia.com/public/college_data/images/studyabroad/appImage/college_1090_29-15:00_o-HARVARD-UNIVERSITY-BUILDING-facebook.jpeg'
 const image2 = 'https://media.gq-magazine.co.uk/photos/5d139a49bc4bf64ef07f0890/16:9/w_2560%2Cc_limit/Aerial-hp--GQ-25aug17_alamy_b.jpg';
 const image3 = 'https://institute.careerguide.com/wp-content/uploads/2020/07/180216_queens_tower_lgbt_month_002-tojpeg_1545305547967_x1.jpg';
@@ -7,6 +8,7 @@ const image3 = 'https://institute.careerguide.com/wp-content/uploads/2020/07/180
 const Banner = () => {
   return (
     <>
+ 
       <Carousel
         transition={{ duration: 2 }}
         className="rounded-xl h-[500px] mt-4 mb-4" // Set a consistent height for the carousel

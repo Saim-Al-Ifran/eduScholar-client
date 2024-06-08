@@ -15,7 +15,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-2">
+    <header className="header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-2 z-10">
       <div className="w-3/12 flex items-center">
         <Link to="/" className="flex items-center">
           <svg
@@ -80,7 +80,7 @@ const Navbar = () => {
         <Button color="green"><i className="fa-solid fa-user mr-1"></i>Login</Button>
       </div>
       {isOpen && (
-        <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md">
+        <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md z-10">
           <ul className="flex flex-col items-center">
             <li className={`p-4 border-b-2 border-green-500 duration-200 cursor-pointer ${isActive('/')}`}>
               <Link to="/" onClick={toggleMenu}><i className="fa-solid fa-house-chimney mr-1"></i>Home</Link>
