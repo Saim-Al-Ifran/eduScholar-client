@@ -3,6 +3,8 @@ import Banner from './sections/Banner'
 import { Helmet } from "react-helmet";
 import TopScholarship from './sections/TopScholarship';
 import ContactUs from './sections/ContactUs';
+import Review from './sections/Review';
+ 
 const Home = () => {
   return (
     <>
@@ -11,6 +13,8 @@ const Home = () => {
     </Helmet>
       <Banner/>
       <TopScholarship/>
+      <Review/>
+ 
       <ContactUs/>
     </>
   )

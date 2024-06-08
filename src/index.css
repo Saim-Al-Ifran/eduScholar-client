@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+ /* Add this to your main CSS file */
+.testimonial-slider {
+    margin: 0 auto;
+    width: 80%;
+    padding: 2rem;
+  }
+  
+  .testimonial-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .testimonial-card img {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+  }
+  
+  .testimonial-card h3 {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .testimonial-card p {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 0.5rem;
+  }
+  
+  .slick-center .testimonial-card {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
