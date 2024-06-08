@@ -20,8 +20,8 @@ const currentYear = new Date().getFullYear();
 
 const FooterWithSocialLinks = () => {
   return (
-    <footer className="relative w-full">
-      <div className="mx-auto w-full max-w-7xl px-8">
+    <footer className="relative w-full bg-gray-200">
+      <div className="mx-auto w-full max-w-7xl px-8  py-[4rem]">
         <div className="grid grid-cols-1 justify-between gap-4 md:grid-cols-2">
           <Typography variant="h5" className="mb-6">
             EduScholar
