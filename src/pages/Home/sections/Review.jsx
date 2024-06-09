@@ -60,7 +60,7 @@ const Review = () => {
       };
 
     return (
-        <div className="container mx-auto py-8">
+        <div className="container mx-auto py-8 mt-[4rem]">
         <h2 className="text-center text-3xl font-bold mb-6">What Our Students Say</h2>
         <div className='slider-container'>
             <Slider {...settings}>

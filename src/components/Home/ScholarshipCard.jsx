@@ -25,9 +25,12 @@ import { Link } from "react-router-dom";
           <Typography>Subject: {subjectCategory}</Typography>
           <Typography>Application Fees: ${applicationFees}</Typography>
           <Typography>Rating: {rating}</Typography>
-          <Button variant="gradient" color="green" className="mt-4">
-            Scholarship Details
-          </Button>
+          <Link to="/scholarship/1">
+            <Button variant="gradient" color="green" className="mt-4">
+                Scholarship Details
+            </Button>
+          </Link>
+
         </CardBody>
       </Card>
     );
