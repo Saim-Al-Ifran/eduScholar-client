@@ -1,71 +1,100 @@
 import React, { useState } from 'react';
-import { FaTachometerAlt, FaProductHunt, FaList, FaTags, FaShoppingCart, FaUsers, FaCog, FaUserShield, FaBars } from 'react-icons/fa';
-import { Collapse } from '@material-tailwind/react';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const location = useLocation();
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-    <div className="md:w-64 w-full bg-gray-800 text-white min-h-screen flex flex-col">
-      <div className="flex items-center justify-between p-4 bg-gray-900 md:hidden">
-        <h1 className="text-2xl font-bold">[Helsinki]</h1>
-        <FaBars className="cursor-pointer" onClick={() => setIsOpen(!isOpen)} />
-      </div>
-      <Collapse open={isOpen} className="md:hidden">
-        <ul className="space-y-2">
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaTachometerAlt className="mr-2" /> Dashboard
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaProductHunt className="mr-2" /> Products
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaList className="mr-2" /> Categories
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaTags className="mr-2" /> Sub-Categories
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaShoppingCart className="mr-2" /> Orders
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaUsers className="mr-2" /> Users
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaCog className="mr-2" /> Options
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaUserShield className="mr-2" /> Role-Management
-          </li>
-        </ul>
-      </Collapse>
-      <div className="hidden md:block">
-        <div className="p-4 flex items-center justify-center bg-gray-900">
-          <h1 className="text-2xl font-bold">EduScholar</h1>
-        </div>
-        <ul className="mt-4 space-y-2">
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaTachometerAlt className="mr-2" /> Dashboard
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaProductHunt className="mr-2" />Manage Scholarships.
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaList className="mr-2" /> Manage Application
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaTags className="mr-2" /> All reviews
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaShoppingCart className="mr-2" /> Orders
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaCog className="mr-2" /> Messages
-          </li>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-            <FaUserShield className="mr-2" /> User-Management
-          </li>
-        </ul>
+    <div className={`bg-gray-800 text-white h-full ${isOpen ? 'w-64' : 'w-20'} transition-width duration-300`}>
+      <div className="flex flex-col items-center w-full h-full">
+        <button onClick={toggleSidebar} className="mt-4 mb-8">
+          {isOpen ? (
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          ) : (
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          )}
+        </button>
+        <nav className="mt-8 w-full">
+          <ul className="flex flex-col w-full">
+            <li className="p-4">
+              <NavLink
+                to="/dashboard"
+                end
+                className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
+              >
+                <i className="fa-solid fa-tachometer-alt mr-2"></i>
+                {isOpen && 'Dashboard Home'}
+              </NavLink>
+            </li>
+            <li className="p-4">
+              <NavLink
+                to="/dashboard/manage_scholarship"
+                className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
+              >
+                <i className="fa-solid fa-book mr-2"></i>
+                {isOpen && 'Manage Scholarship'}
+              </NavLink>
+            </li>
+            <li className="p-4">
+              <NavLink
+                to="/dashboard/manage_application"
+                className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
+              >
+                <i className="fa-solid fa-clipboard-list mr-2"></i>
+                {isOpen && 'Manage Application'}
+              </NavLink>
+            </li>
+            <li className="p-4">
+              <NavLink
+                to="/dashboard/all_reviews"
+                className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
+              >
+                <i className="fa-solid fa-comments mr-2"></i>
+                {isOpen && 'All Reviews'}
+              </NavLink>
+            </li>
+            <li className="p-4">
+              <NavLink
+                to="/dashboard/users"
+                className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
+              >
+                <i className="fa-solid fa-users mr-2"></i>
+                {isOpen && 'User Management'}
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   );
