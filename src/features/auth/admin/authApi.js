@@ -24,7 +24,7 @@ const adminAuthApi = apiSlice.injectEndpoints({
                             const result = await queryFulfilled;
                             const accessToken = result?.data?.token;
                             const expirationTime = new Date();
-                            expirationTime.setTime(expirationTime.getTime() + 1 * 60 * 1000);                 
+                            expirationTime.setTime(expirationTime.getTime() + 60 * 60 * 1000);                 
         
                             Cookies.set(
                                 'token',
