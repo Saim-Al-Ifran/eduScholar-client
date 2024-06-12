@@ -1,10 +1,14 @@
  import React from 'react'
 import AppRouter from './routes/Routes'
- 
+import { Toaster} from "react-hot-toast";
  const App = () => {
    
    return (
-        <AppRouter/>
+    <>
+            <Toaster />
+            <AppRouter/>
+    </>
+
    )
  }
  

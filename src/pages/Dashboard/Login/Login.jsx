@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Card, CardBody, Input, Button, Typography } from "@material-tailwind/react";
-import { useAdminLoginMutation } from "../../../features/auth/admin/adminAuthApi";
+import { useAdminLoginMutation } from "../../../features/auth/admin/authApi";
 import useJwtDecode from "../../../hooks/useDecode";
 import { Toaster, toast } from "react-hot-toast";
+ 
+
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -24,6 +26,7 @@ const Login = () => {
   useEffect(() => {
     if (isSuccess && data) {
       setToken(data.token);
+      toast.success('Login successfull')
     } else if (isError && errorRes) {
      toast.error(errorRes.data.message);
     }
@@ -39,20 +42,18 @@ const Login = () => {
     }
   }, [decodedToken]);
 
+ 
+
   return (
     <>
-      <Toaster />
+     
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
         <Card className="w-96">
           <CardBody>
             <Typography variant="h4" className="text-center mb-4">
               Admin Login
             </Typography>
-            {success ? (
-              <Typography variant="h6" className="text-center mb-4 text-green-500">
-                Login successful!
-              </Typography>
-            ) : (
+  
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
                   <Input
@@ -101,7 +102,8 @@ const Login = () => {
                   {isLoading ? "Logging in..." : "Login"}
                 </Button>
               </form>
-            )}
+   
+             
             {tokenError && (
               <Typography variant="small" className="text-red-500 mb-4 text-center">
                 {tokenError}
