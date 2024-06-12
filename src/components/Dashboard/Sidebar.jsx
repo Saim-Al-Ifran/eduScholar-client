@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import useUserRoles from '../../hooks/useUserRoles';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const location = useLocation();
-
+  const {isAdmin,isModerator} = useUserRoles();
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
