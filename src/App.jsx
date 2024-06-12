@@ -1,11 +1,11 @@
  import React from 'react'
 import AppRouter from './routes/Routes'
 import { Toaster} from "react-hot-toast";
-import useIsAdmin from './hooks/useIsAdmin';
+ 
+import useUserRoles from './hooks/useUserRoles';
  const App = () => {
-   const isAdmin = useIsAdmin();
-     console.log(isAdmin);
-   return (
+ 
+   return ( 
     <>
             <Toaster />
             <AppRouter/>
