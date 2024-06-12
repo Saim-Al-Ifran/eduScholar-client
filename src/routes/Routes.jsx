@@ -9,6 +9,7 @@ import ManageScholarship from '../pages/Dashboard/ManageScholarship/AllScholarsh
 import ManageApplication from '../pages/Dashboard/ManageApplication/AllAppliedApplication';
 import AllReviews from '../pages/Dashboard/Reviews/Reviews';
 import UserManagement from '../pages/Dashboard/User/AllUser';
+import Login from '../pages/Dashboard/Login/Login';
 
 const AppRouter = () => {
   return (
@@ -26,6 +27,7 @@ const AppRouter = () => {
           <Route path="all_reviews" element={<AllReviews />} />
           <Route path="users" element={<UserManagement />} />
         </Route>
+        <Route path='/dashboard/login' element={<Login/>} />
       </Routes>
     </Router>
   );
