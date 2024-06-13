@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import useUserRoles from '../../hooks/useIsAdmin';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const location = useLocation();
+  const { isAdmin, isModerator } = useUserRoles();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -47,43 +49,48 @@ const Sidebar = () => {
         </button>
         <nav className="mt-8 w-full">
           <ul className="flex flex-col w-full">
-            <li className="p-4">
-              <NavLink
-                to="/dashboard"
-                end
-                className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
-              >
-                <i className="fa-solid fa-tachometer-alt mr-2"></i>
-                {isOpen && 'Dashboard Home'}
-              </NavLink>
-            </li>
-            <li className="p-4">
-              <NavLink
-                to="/dashboard/manage_scholarship"
-                className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
-              >
-                <i className="fa-solid fa-book mr-2"></i>
-                {isOpen && 'Manage Scholarship'}
-              </NavLink>
-            </li>
-            <li className="p-4">
-              <NavLink
-                to="/dashboard/manage_application"
-                className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
-              >
-                <i className="fa-solid fa-clipboard-list mr-2"></i>
-                {isOpen && 'Manage Application'}
-              </NavLink>
-            </li>
-            <li className="p-4">
-              <NavLink
-                to="/dashboard/all_reviews"
-                className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
-              >
-                <i className="fa-solid fa-comments mr-2"></i>
-                {isOpen && 'All Reviews'}
-              </NavLink>
-            </li>
+            {(isAdmin || isModerator) && (
+              <>
+                <li className="p-4">
+                  <NavLink
+                    to="/dashboard"
+                    end
+                    className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
+                  >
+                    <i className="fa-solid fa-tachometer-alt mr-2"></i>
+                    {isOpen && 'Dashboard Home'}
+                  </NavLink>
+                </li>
+                <li className="p-4">
+                  <NavLink
+                    to="/dashboard/manage_scholarship"
+                    className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
+                  >
+                    <i className="fa-solid fa-book mr-2"></i>
+                    {isOpen && 'Manage Scholarship'}
+                  </NavLink>
+                </li>
+                <li className="p-4">
+                  <NavLink
+                    to="/dashboard/manage_application"
+                    className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
+                  >
+                    <i className="fa-solid fa-clipboard-list mr-2"></i>
+                    {isOpen && 'Manage Application'}
+                  </NavLink>
+                </li>
+                <li className="p-4">
+                  <NavLink
+                    to="/dashboard/all_reviews"
+                    className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
+                  >
+                    <i className="fa-solid fa-comments mr-2"></i>
+                    {isOpen && 'All Reviews'}
+                  </NavLink>
+                </li>
+              </>
+            )}
+           {isAdmin && (
             <li className="p-4">
               <NavLink
                 to="/dashboard/users"
@@ -93,6 +100,8 @@ const Sidebar = () => {
                 {isOpen && 'User Management'}
               </NavLink>
             </li>
+           )}
+
           </ul>
         </nav>
       </div>

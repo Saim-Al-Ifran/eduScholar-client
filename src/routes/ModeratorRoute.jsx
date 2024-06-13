@@ -7,15 +7,20 @@ const ModeratorRoute = ({ children }) => {
 
     const {isModerator} = useUserRoles();
 
-    if (isAuthenticated === null) {
-        return   <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-dots loading-lg"></span>
-       </div>
-    }
+
+    if (isAuthenticated &&  isModerator === false   ) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <span className="loading loading-dots loading-lg"></span>
+            </div>
+        );
+    }  
+
 
     if (isAuthenticated && isModerator) {
         return children;
     }
+
 
     return   <Navigate state={location.pathname} to="/dashboard/login"></Navigate>;
 

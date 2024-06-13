@@ -11,6 +11,7 @@ import AllReviews from '../pages/Dashboard/Reviews/Reviews';
 import UserManagement from '../pages/Dashboard/User/AllUser';
 import Login from '../pages/Dashboard/Login/Login';
 import AdminOrModRoute from './AdminOrModRoute';
+import AdminRoute from './AdminRoute';
 
 const AppRouter = () => {
   return (
@@ -32,8 +33,13 @@ const AppRouter = () => {
           <Route index element={<DashboardHome />} />
           <Route path="manage_scholarship" element={<ManageScholarship />} />
           <Route path="manage_application" element={<ManageApplication />} />
-          <Route path="all_reviews" element={<AllReviews />} />
-          <Route path="users" element={<UserManagement />} />
+          <Route path="all_reviews" element={<AllReviews />}/>
+          <Route path="users" element={
+                 <AdminRoute>
+                             <UserManagement />
+                 </AdminRoute>
+              
+          }/>
         </Route>
 
         <Route path='/dashboard/login' element={<Login/>} />

@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import Cookies from 'js-cookie';
-import useUserRoles from '../hooks/useUserRoles';
+import useUserRoles from "../hooks/useIsAdmin";
+
 
 const AdminRoute = ({ children }) => {
     const isAuthenticated = Cookies.get('token');
@@ -8,10 +9,12 @@ const AdminRoute = ({ children }) => {
 
     const {isAdmin} = useUserRoles();
 
-    if (isAuthenticated === null) {
-        return   <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-dots loading-lg"></span>
-       </div>
+    if (isAuthenticated && isAdmin === false   ) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <span className="loading loading-dots loading-lg"></span>
+            </div>
+        );
     }
 
     if (isAuthenticated && isAdmin) {
