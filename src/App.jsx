@@ -1,12 +1,17 @@
  import React from 'react'
 import AppRouter from './routes/Routes'
 import { Toaster} from "react-hot-toast";
-import useUserRoles from './hooks/useIsAdmin';
- 
+import useAuthCheck from './hooks/useAuthCheck';
+  
  
  const App = () => {
-     const {isAdmin} = useUserRoles();
-     console.log(isAdmin);
+   
+   const authChecked = useAuthCheck();
+
+   if (!authChecked) {
+     return <div>Loading...</div>; 
+   }
+ 
    return (
     <>
             <Toaster />

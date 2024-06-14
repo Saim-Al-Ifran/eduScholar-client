@@ -6,6 +6,7 @@ import useJwtDecode from "../../../hooks/useDecode";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import useUserRoles from "../../../hooks/useIsAdmin";
+import { Helmet } from "react-helmet";
  
 
 
@@ -50,12 +51,15 @@ const Login = () => {
       }
     }
   }, [decodedToken]);
-
  
-
   return (
     <>
-     
+       <Helmet>
+          <title>
+            Admin login
+          </title>        
+       </Helmet>   
+
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
         <Card className="w-96">
           <CardBody>

@@ -8,9 +8,6 @@ const AdminOrModRoute = ({ children }) => {
     const isAuthenticated = Cookies.get('token');
     const location = useLocation();
 
-    console.log(isAdmin, isModerator);
-
-    // Show loading if user roles are still being determined
     if (isAuthenticated && isAdmin === false && isModerator === false   ) {
         return (
             <div className="flex justify-center items-center h-screen">
@@ -18,9 +15,7 @@ const AdminOrModRoute = ({ children }) => {
             </div>
         );
     }
-    
 
-    // If authenticated and either admin or moderator, allow access
     if (isAuthenticated && (isAdmin || isModerator)) {
         return children;
     }
