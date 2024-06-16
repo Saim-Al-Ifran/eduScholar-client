@@ -90,17 +90,17 @@ const Reviews = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {userReviews?.reviews.map(review => (
             <div key={review._id} className="border rounded-md p-4 shadow-md">
-              <h2 className="text-xl font-semibold">{review.universityName}</h2>
-              <p className="text-gray-700">{review.subjectCategory}</p>
+              <h2 className="text-xl font-semibold">{review?.universityName}</h2>
+              <p className="text-gray-700">{review?.subjectCategory}</p>
               <div className="flex items-center my-2">
-                <img src={review.user.profilePicture} alt="Reviewer" className="w-10 h-10 rounded-full mr-2" />
+                <img src={review?.user?.profilePicture} alt="Reviewer" className="w-10 h-10 rounded-full mr-2" />
                 <div>
-                  <p className="font-semibold">{review.user.name}</p>
-                  <p className="text-gray-500 text-sm">{new Date(review.createdAt).toLocaleDateString()}</p>
+                  <p className="font-semibold">{review?.user?.name}</p>
+                  <p className="text-gray-500 text-sm">{new Date(review?.createdAt).toLocaleDateString()}</p>
                 </div>
               </div>
-              <p className="text-yellow-500">Rating: {review.rating}</p>
-              <p className="text-gray-800 mt-2">{review.comments}</p>
+              <p className="text-yellow-500">Rating: {review?.rating}</p>
+              <p className="text-gray-800 mt-2">{review?.comments}</p>
               <button
                 onClick={() => openDialog(review)}
                 className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md"
@@ -115,7 +115,7 @@ const Reviews = () => {
         <Dialog open={isDialogOpen} handler={closeDialog}>
           <DialogHeader>Confirm Delete</DialogHeader>
           <DialogBody>
-            Are you sure you want to delete this review by {selectedReview.user.name}?
+            Are you sure you want to delete this review by {selectedReview?.user?.name}?
           </DialogBody>
           <DialogFooter>
             <button onClick={closeDialog} className="bg-gray-500 text-white rounded px-4 py-2 mr-2">
@@ -123,7 +123,7 @@ const Reviews = () => {
             </button>
             <button
               onClick={() => {
-                handleDelete(selectedReview._id);
+                handleDelete(selectedReview?._id);
                 closeDialog();
               }}
               className="bg-red-500 text-white rounded px-4 py-2"
