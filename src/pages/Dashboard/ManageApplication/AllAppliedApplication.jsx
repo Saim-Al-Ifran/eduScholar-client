@@ -1,44 +1,30 @@
 import React, { useState } from 'react';
  
- 
 import ApplicationDetails from './ApplicationDetails';
 import ApplicationFeedbackModal from './ApplicationFeedbackModal';
 import ApplicationEditModal from './ApplicationEditModal';
 import { Button } from '@material-tailwind/react';
-
-const applicationsData = [
-  {
-    id: 1,
-    universityName: "Harvard University",
-    scholarshipName: "Harvard Scholarship",
-    scholarshipCategory: "Merit-based",
-    subjectCategory: "Engineering",
-    degree: "Undergraduate",
-    applicationFees: 50,
-    serviceCharge: 20,
-    status: "pending",
-  },
-  {
-    id: 2,
-    universityName: "Stanford University",
-    scholarshipName: "Stanford Scholarship",
-    scholarshipCategory: "Need-based",
-    subjectCategory: "Business",
-    degree: "Graduate",
-    applicationFees: 75,
-    serviceCharge: 30,
-    status: "processing",
-  },
-  // Add more applications here...
-];
+import { 
+  useGetAllApplicationQuery,
+  useAddFeedBackMutation,
+  useCancelApplicationMutation,
+  useChangeApplicationStatusMutation,
+  useDeleteApplicationMutation
+ } from '../../../features/manage_application/manageApplicationApi';
 
 const AllAppliedApplication = () => {
-  const [applications, setApplications] = useState(applicationsData);
+  const { data: applications = [], isLoading, isError } = useGetAllApplicationQuery();
+  const [addFeedBack] = useAddFeedBackMutation();
+  const [cancelApplication] = useCancelApplicationMutation();
+  const [changeApplicationStatus] = useChangeApplicationStatusMutation();
+  const [deleteApplication] = useDeleteApplicationMutation();
+
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState(null);
-
+  
+  console.log(applications); 
   const openDetailsModal = (application) => {
     setSelectedApplication(application);
     setIsDetailsModalOpen(true);
@@ -69,9 +55,21 @@ const AllAppliedApplication = () => {
     setSelectedApplication(null);
   };
 
-  const handleSaveStatus = (id, status) => {
-    setApplications(applications.map(app => app.id === id ? { ...app, status } : app));
+  const handleSaveStatus = async (id, status) => {
+    await changeApplicationStatus({ id, data: {status: status } });
   };
+
+  const handleDeleteApplication = async (id) => {
+    await deleteApplication(id);
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error loading applications.</div>;
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -80,50 +78,47 @@ const AllAppliedApplication = () => {
         <thead>
           <tr>
             <th className="py-2 px-4 border-b">University Name</th>
-            <th className="py-2 px-4 border-b">Scholarship Name</th>
+            <th className="py-2 px-4 border-b">Scholarship Category</th>
             <th className="py-2 px-4 border-b">Application Fees</th>
-            <th className="py-2 px-4 border-b">Service Charge</th>
+            <th className="py-2 px-4 border-b">Applicant</th>
             <th className="py-2 px-4 border-b">Status</th>
             <th className="py-2 px-4 border-b">Details</th>
             <th className="py-2 px-4 border-b">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {applications.map((application, index) => (
-            <tr key={index}>
-              <td className="py-2 px-4 border-b">{application.universityName}</td>
-              <td className="py-2 px-4 border-b">{application.scholarshipName}</td>
-              <td className="py-2 px-4 border-b">${application.applicationFees}</td>
-              <td className="py-2 px-4 border-b">${application.serviceCharge}</td>
+          {applications.map((application) => (
+            <tr key={application.id}>
+              <td className="py-2 px-4 border-b">{application?.scholarship?.universityName}</td>
+              <td className="py-2 px-4 border-b">{application?.scholarship?.scholarshipCategory}</td>
+              <td className="py-2 px-4 border-b">{application?.scholarship?.fees} TK</td>
+              <td className="py-2 px-4 border-b">{application?.personalDetails?.firstName}</td>
               <td className="py-2 px-4 border-b">{application.status}</td>
               <td className="py-2 px-4 border-b">
-              <Button
-                  onClick={() => openDetailsModal(application)}
-                >
-                   <i class="fa-solid fa-eye"></i>
+                <Button onClick={() => openDetailsModal(application)}>
+                  <i className="fa-solid fa-eye"></i>
                 </Button>
               </td>
               <td className="py-2 px-4 border-b">
-
                 <Button
                   onClick={() => openFeedbackModal(application)}
                   className="mr-2"
                   color='blue'
                 >
-                 <i class="fa-solid fa-comment"></i>
+                  <i className="fa-solid fa-comment"></i>
                 </Button>
                 <Button
                   onClick={() => openEditModal(application)}
                   color='green'
                   className='mr-2'
                 >
-                    <i class="fa-solid fa-pen-to-square"></i>
+                  <i className="fa-solid fa-pen-to-square"></i>
                 </Button>
                 <Button
-                  onClick={() => console.log('Delete Application')}
+                  onClick={() => handleDeleteApplication(application.id)}
                   color='red'
                 >
-                  <i class="fa-solid fa-trash"></i>
+                  <i className="fa-solid fa-trash"></i>
                 </Button>
               </td>
             </tr>
