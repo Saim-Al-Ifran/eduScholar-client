@@ -4,14 +4,13 @@ export const applicationApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAllApplication: builder.query({
             query: () => '/eduScholar-administration/dashboard/admin/applied_applications/',
-            providesTags: (result, error, id) => [
-                'Applications',
-                { type: 'Applications', id }
-            ],
+            providesTags:['Applications']
         }),
         getSingleApplication: builder.query({
             query: (id) => `/eduScholar-administration/dashboard/admin/applied_applications/${id}`,
-            providesTags: (result, error, id) => [{ type: 'Applications', id }],
+            providesTags:(result,error,id)=>[
+                {type:'Application', id}
+            ]
         }),
         addFeedBack: builder.mutation({
             query: ({ id, data }) => ({
@@ -19,7 +18,7 @@ export const applicationApi = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body: data,
             }),
-            invalidatesTags: (result, error, { id }) => [{ type: 'Applications', id }],
+           
         }),
         cancelApplication: builder.mutation({
             query: ({ id, data }) => ({
@@ -27,7 +26,7 @@ export const applicationApi = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body: data,
             }),
-            invalidatesTags: (result, error, { id }) => [{ type: 'Applications', id }],
+           
         }),
         changeApplicationStatus: builder.mutation({
             query: ({ id, data }) => ({
@@ -35,17 +34,24 @@ export const applicationApi = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body: data,
             }),
-            invalidatesTags: (result, error, { id }) => [{ type: 'Applications', id }],
+            invalidatesTags:(result,error,{ id }) => [
+                'Applications',
+                 {type:'Application', id}
+            ]    
+            
         }),
         deleteApplication: builder.mutation({
             query: (id) => ({
                 url: `/eduScholar-administration/dashboard/admin/applied_applications/${id}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: (result, error, id) => [{ type: 'Applications', id }],
+            invalidatesTags:(result,error, id) => [
+                'Applications',
+                { type:'Application', id }
+            ] 
         }),
     }),
-     tagTypes: ['Applications']
+     tagTypes: ['Applications','Application']
 });
 
 export const {

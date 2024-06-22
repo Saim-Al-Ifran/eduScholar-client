@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ApplicationDetails from './ApplicationDetails';
 import ApplicationFeedbackModal from './ApplicationFeedbackModal';
 import ApplicationEditModal from './ApplicationEditModal';
@@ -13,18 +13,40 @@ import {
 import { Helmet } from 'react-helmet';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 
 const AllAppliedApplication = () => {
   const { data: applications = [], isLoading, isError } = useGetAllApplicationQuery();
   const [addFeedBack] = useAddFeedBackMutation();
   const [cancelApplication] = useCancelApplicationMutation();
   const [changeApplicationStatus] = useChangeApplicationStatusMutation();
-  const [deleteApplication] = useDeleteApplicationMutation();
-
+  const [deleteApplication,{isLoading:delLoading,isError:delError,isSuccess:delSuccess}] = useDeleteApplicationMutation();
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState(null);
+  const dispatch = useDispatch();
+
+
+  useEffect(()=>{
+       if(delSuccess){
+          Swal.fire(
+            'Deleted!',
+            'The application has been deleted.',
+            'success'
+          );
+       }
+
+       if(delError){
+          Swal.fire(
+            'Error!',
+            'Failed to delete the application.',
+            'error'
+          );
+       }
+  },[delError,delSuccess])
 
   const openDetailsModal = (application) => {
     setSelectedApplication(application);
@@ -56,9 +78,21 @@ const AllAppliedApplication = () => {
     setSelectedApplication(null);
   };
 
- 
   const handleDeleteApplication = async (id) => {
-    await deleteApplication(id);
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
+       await dispatch(deleteApplication(id));
+ 
+    }
   };
 
   const getStatusClass = (status) => {
@@ -157,7 +191,7 @@ const AllAppliedApplication = () => {
                     <i className="fa-solid fa-pen-to-square"></i>
                   </Button>
                   <Button
-                    onClick={() => handleDeleteApplication(application.id)}
+                    onClick={() => handleDeleteApplication(application._id)}
                     color='red'
                   >
                     <i className="fa-solid fa-trash"></i>
@@ -178,6 +212,7 @@ const AllAppliedApplication = () => {
         {isFeedbackModalOpen && (
           <ApplicationFeedbackModal
             application={selectedApplication}
+            isOpen={isFeedbackModalOpen}
             onClose={closeFeedbackModal}
           />
         )}
@@ -185,8 +220,8 @@ const AllAppliedApplication = () => {
         {isEditModalOpen && (
           <ApplicationEditModal
             application={selectedApplication}
+            isOpen={isEditModalOpen}
             onClose={closeEditModal}
-       
           />
         )}
       </div>

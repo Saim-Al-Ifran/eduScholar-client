@@ -4,7 +4,7 @@ export const usersApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAllUsers: builder.query({
             query: () => '/eduScholar-administration/dashboard/admin/users',
-            providesTags: ['User']
+            providesTags: ['Users']
         }),
         getSingleUser: builder.query({
             query: (id) => `/eduScholar-administration/dashboard/admin/users/${id}`,
@@ -16,7 +16,10 @@ export const usersApi = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body: data
             }),
-            invalidatesTags: (result, error,  {id} ) => [{ type: 'User', id }]
+            invalidatesTags: (result, error,  {id} ) => [
+                'Users',
+                { type: 'User', id }
+            ]
         }),
         deleteUser: builder.mutation({
             query: (id) => ({
@@ -26,7 +29,7 @@ export const usersApi = apiSlice.injectEndpoints({
             invalidatesTags: (result, error, id) => [{ type: 'User', id }]
         })
     }),
-    tagTypes: ['User']
+    tagTypes: ['Users','User']
 });
 
 export const {
