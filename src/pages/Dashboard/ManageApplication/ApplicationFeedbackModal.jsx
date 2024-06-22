@@ -1,17 +1,52 @@
-import React, { useState } from 'react';
-import { Dialog, DialogHeader, DialogBody, DialogFooter } from "@material-tailwind/react";
+import React, { useEffect, useState } from 'react';
+import { Dialog, DialogHeader, DialogBody, DialogFooter, Button } from "@material-tailwind/react";
+import { useAddFeedBackMutation } from '../../../features/manage_application/manageApplicationApi';
+import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 
-const ApplicationFeedbackModal = ({ application, onClose }) => {
+const ApplicationFeedbackModal = ({ application,  onClose }) => {
   const [feedback, setFeedback] = useState('');
+  const [addFeedBack, { isSuccess, isError, isLoading }] = useAddFeedBackMutation();
+  const dispatch = useDispatch();
 
   const handleFeedbackChange = (e) => {
     setFeedback(e.target.value);
   };
 
-  const handleSubmitFeedback = () => {
-    // Handle feedback submission logic
-    alert('Feedback submitted successfully!');
-    onClose();
+  useEffect(() => {
+    if (isSuccess) {
+        Swal.fire({
+        icon: 'success',
+        title: 'Feedback Submitted',
+        text: 'Your feedback has been submitted successfully!',
+      }) 
+      onClose();
+    }
+
+    if (isError) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Submission Failed',
+        text: 'There was an error submitting your feedback. Please try again later.',
+      });
+      onClose();
+    }
+  }, [isSuccess, isError, onClose]);
+
+  const handleSubmitFeedback = async () => {
+    try {
+      await dispatch(
+        addFeedBack({
+          id: application._id,
+          data: {
+             feedback:feedback
+             }
+        })
+      );
+    } catch (error) {
+      console.error('Failed to submit feedback:', error);
+    }
   };
 
   return (
@@ -28,12 +63,12 @@ const ApplicationFeedbackModal = ({ application, onClose }) => {
         </div>
       </DialogBody>
       <DialogFooter>
-        <button onClick={onClose} className="bg-gray-500 text-white rounded px-4 py-2 mr-2">
+        <Button onClick={onClose} disabled={isLoading} className="mr-2">
           Cancel
-        </button>
-        <button onClick={handleSubmitFeedback} className="bg-green-500 text-white rounded px-4 py-2">
+        </Button>
+        <Button onClick={handleSubmitFeedback} color="green" loading={isLoading}>
           Submit
-        </button>
+        </Button>
       </DialogFooter>
     </Dialog>
   );

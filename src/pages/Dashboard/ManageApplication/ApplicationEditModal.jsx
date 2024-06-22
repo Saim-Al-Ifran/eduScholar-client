@@ -1,13 +1,43 @@
-import React, { useState } from 'react';
-import { Dialog, DialogHeader, DialogBody, DialogFooter } from "@material-tailwind/react";
-
-const ApplicationEditModal = ({ application, onClose, onSaveStatus }) => {
+import React, { useEffect, useState } from 'react';
+import { Dialog, DialogHeader, DialogBody, DialogFooter, Button } from "@material-tailwind/react";
+import { useChangeApplicationStatusMutation } from '../../../features/manage_application/manageApplicationApi';
+import {toast } from "react-hot-toast";
+import { useDispatch } from 'react-redux';
+const ApplicationEditModal = ({ application, onClose }) => {
   const [status, setStatus] = useState(application.status);
+  const [changeApplicationStatus,{isLoading,isError,isSuccess,data}] = useChangeApplicationStatusMutation();
+  const dispatch = useDispatch();
+ 
+  useEffect(()=>{
+        if(isSuccess){
+            toast.success('Status changed!!')
+            onClose();
+        }
+        if(isError){
+            toast.error("something wrong!!");
+            onClose();
+        }
+  },[isSuccess,isError,onClose])
 
-  const handleSave = () => {
-    onSaveStatus(application.id, status);
+  
+  const handleSave = async() => {
+     
+     await dispatch(changeApplicationStatus({
+       id:application._id,
+       data:{ 
+        status:status 
+       }
+    }));
     onClose();
+   
   };
+
+
+ 
+
+  
+
+  console.log(data);
 
   return (
     <Dialog open={true} handler={onClose}>
@@ -22,7 +52,8 @@ const ApplicationEditModal = ({ application, onClose, onSaveStatus }) => {
           >
             <option value="pending">Pending</option>
             <option value="processing">Processing</option>
-            <option value="completed">Completed</option>
+            <option value="approved">Approve</option>
+            <option value="rejected">Rejected</option>
           </select>
         </div>
       </DialogBody>
@@ -30,13 +61,14 @@ const ApplicationEditModal = ({ application, onClose, onSaveStatus }) => {
         <button onClick={onClose} className="bg-gray-500 text-white rounded px-4 py-2 mr-2">
           Cancel
         </button>
-        <button onClick={handleSave} className="bg-green-500 text-white rounded px-4 py-2">
+        <Button loading={isLoading} onClick={handleSave} color="green">
           Save
-        </button>
+        </Button>
       </DialogFooter>
     </Dialog>
   );
 };
+
 
 export default ApplicationEditModal;
 

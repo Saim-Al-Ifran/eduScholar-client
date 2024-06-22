@@ -4,10 +4,10 @@ export const applicationApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAllApplication: builder.query({
             query: () => '/eduScholar-administration/dashboard/admin/applied_applications/',
-            providesTags: (result) => 
-                result 
-                    ? [...result.map(({ id }) => ({ type: 'Applications', id })), { type: 'Applications', id: 'LIST' }]
-                    : [{ type: 'Applications', id: 'LIST' }],
+            providesTags: (result, error, id) => [
+                'Applications',
+                { type: 'Applications', id }
+            ],
         }),
         getSingleApplication: builder.query({
             query: (id) => `/eduScholar-administration/dashboard/admin/applied_applications/${id}`,
@@ -45,7 +45,7 @@ export const applicationApi = apiSlice.injectEndpoints({
             invalidatesTags: (result, error, id) => [{ type: 'Applications', id }],
         }),
     }),
-    tagTypes: ['Applications']
+     tagTypes: ['Applications']
 });
 
 export const {
