@@ -35,7 +35,7 @@ const AppRouter = () => {
           <Route index element={<DashboardHome />} />
           <Route path="manage_scholarship" element={<ManageScholarship />}/>
           <Route path="manage_scholarship/add_scholarship" element={<AddScholarship />}/>
-          <Route path="manage_scholarship/edit_scholarship" element={<EditScholarship />}/>
+          <Route path="manage_scholarship/edit_scholarship/:id" element={<EditScholarship />}/>
 
           <Route path="manage_application" element={<ManageApplication />} />
 

@@ -12,7 +12,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={`bg-gray-800 text-white h-full ${isOpen ? 'w-64' : 'w-20'} transition-width duration-300`}>
+    <div className={`fixed top-0 left-0 bg-gray-800 text-white h-full ${isOpen ? 'w-64' : 'w-20'} transition-width duration-300 overflow-y-auto`}>
       <div className="flex flex-col items-center w-full h-full">
         <button onClick={toggleSidebar} className="mt-4 mb-8">
           {isOpen ? (
@@ -90,18 +90,17 @@ const Sidebar = () => {
                 </li>
               </>
             )}
-           {isAdmin && (
-            <li className="p-4">
-              <NavLink
-                to="/dashboard/users"
-                className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
-              >
-                <i className="fa-solid fa-users mr-2"></i>
-                {isOpen && 'User Management'}
-              </NavLink>
-            </li>
-           )}
-
+            {isAdmin && (
+              <li className="p-4">
+                <NavLink
+                  to="/dashboard/users"
+                  className={({ isActive }) => `block py-2.5 px-4 rounded transition-colors duration-300 ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
+                >
+                  <i className="fa-solid fa-users mr-2"></i>
+                  {isOpen && 'User Management'}
+                </NavLink>
+              </li>
+            )}
           </ul>
         </nav>
       </div>

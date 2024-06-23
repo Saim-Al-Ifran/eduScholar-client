@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Button, Input, Textarea } from '@material-tailwind/react';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +6,8 @@ import { Helmet } from 'react-helmet';
 import { useGetScholarshipCategoriesQuery } from '../../../features/scholarship_category/scholarshipCategoryApi';
 import { useGetDegreeCategoriesQuery } from '../../../features/degree_category/degreeCategoryApi';
 import { useGetSubjectCategoriesQuery } from '../../../features/subject_category/subjectCategoryApi';
+import { useDispatch } from 'react-redux';
+import { useCreateScholarshipMutation } from '../../../features/scholarship/scholarshipApi';
 
 const AddScholarship = () => {
   const navigate = useNavigate();
@@ -22,20 +23,26 @@ const AddScholarship = () => {
     stipend: 0,
     serviceCharge: '',
     worldRank: '',
-    rating: 0,
     description: ''
   });
 
   const { data: scholarshipCategories = [] } = useGetScholarshipCategoriesQuery();
   const { data:degrees=[] } = useGetDegreeCategoriesQuery();
   const { data: subjectCategories = [] } = useGetSubjectCategoriesQuery();
+  const [createScholarship, { isLoading,isError,isSuccess }] = useCreateScholarshipMutation();
+  const dispatch = useDispatch();
+ 
 
-  // const subjectCategories = [
-  //   { id: 1, name: 'Science' },
-  //   { id: 2, name: 'Arts' },
-  //   { id: 3, name: 'Engineering' },
-  //   // Add more subject categories as needed
-  // ];
+  useEffect(()=>{
+    
+    if(isSuccess){
+      toast.success('Scholarship created successfully');
+      navigate('/dashboard/manage_scholarship/')
+    }
+     if(isError){
+      toast.error('Failed to create scholarship');
+     }
+  },[isSuccess,isError,navigate])
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -45,14 +52,7 @@ const AddScholarship = () => {
     });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const data = new FormData();
-  //   for (const key in formData) {
-  //     data.append(key, formData[key]);
-  //   }
  
-  // };
 
 
   const handleSubmit = async (e) => {
@@ -69,10 +69,14 @@ const AddScholarship = () => {
     data.append('stipend', formData.stipend);
     data.append('serviceCharge', formData.serviceCharge);
     data.append('worldRank', formData.worldRank);
-    data.append('rating', formData.rating);
     data.append('description', formData.description);
     
-    console.log(formData);
+    try {
+       dispatch(createScholarship(data))
+        
+    } catch (err) {
+       console.log(err);
+    }
   
   };
 
@@ -242,18 +246,7 @@ const AddScholarship = () => {
               required
             />
           </div>
-          <div>
-            <label htmlFor="rating" className="block text-sm font-medium text-gray-700">
-              Rating
-            </label>
-            <Input
-              type="number"
-              name="rating"
-              id="rating"
-              value={formData.rating}
-              onChange={handleChange}
-            />
-          </div>
+   
         </div>
         <div className="mt-4">
           <label htmlFor="description" className="block text-sm font-medium text-gray-700">
@@ -272,7 +265,7 @@ const AddScholarship = () => {
           <Button type="button" color="gray" onClick={() => navigate('/dashboard/manage_scholarship')}>
             Cancel
           </Button>
-          <Button type="submit" color="green">
+          <Button loading={isLoading} type="submit" color="green">
             Create
           </Button>
         </div>
