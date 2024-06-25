@@ -14,6 +14,8 @@ import AdminOrModRoute from './AdminOrModRoute';
 import AdminRoute from './AdminRoute';
 import AddScholarship from '../pages/Dashboard/ManageScholarship/AddScholarship';
 import EditScholarship from '../pages/Dashboard/ManageScholarship/EditScholarship';
+import UserLogin from '../pages/Login/Login';
+import UserRegistration from '../pages/UserRegistration/UserRegistration';
 
 const AppRouter = () => {
   return (
@@ -49,6 +51,8 @@ const AppRouter = () => {
         </Route>
 
         <Route path='/dashboard/login' element={<Login/>} />
+        <Route path='/login' element={<UserLogin/>} />
+        <Route path='/register' element={<UserRegistration/>} />
       </Routes>
     </Router>
   );

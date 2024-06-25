@@ -8,9 +8,6 @@ const clearToken = (dispatch) => {
     dispatch(userLoggedOut());
 };
 
-
-
-
 const adminAuthApi = apiSlice.injectEndpoints({
       endpoints:(builder)=>({
              adminLogin: builder.mutation({
@@ -49,7 +46,8 @@ const adminAuthApi = apiSlice.injectEndpoints({
                             console.log(err);
                         }
                     }
-             })
+             }),
+             
       })
 })
 
