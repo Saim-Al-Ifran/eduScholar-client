@@ -6,6 +6,17 @@ export const scholarshipApi = apiSlice.injectEndpoints({
                       query:()=> '/eduScholar-administration/dashboard/admin/scholarships',
                       providesTags:['Scholarships']
                 }),
+                getAllUserScholarships:builder.query({
+                  query:()=> '/scholarships',
+                  providesTags:['Scholarships']
+                }),
+                getUserSingleScholarship: builder.query({
+                      query:(id)=> `/scholarships/${id}`,
+                      providesTags: (result,error,id)=>[
+                        'Scholarships',
+                        {type:'scholarship',id}
+                      ]
+                }),
                 getSingleScholarship: builder.query({
                       query:(id)=> `/eduScholar-administration/dashboard/admin/scholarships/${id}`,
                       providesTags: (result,error,id)=>[
@@ -42,7 +53,7 @@ export const scholarshipApi = apiSlice.injectEndpoints({
                       invalidatesTags:['Scholarships']
                 })
           }),
-          tagTypes: ['Scholarships','scholarship']
+         tagTypes: ['Scholarships','scholarship']
 })
 
 export const { 
@@ -50,5 +61,7 @@ export const {
     useGetSingleScholarshipQuery,
     useCreateScholarshipMutation,
     useUpdateScholarshipMutation,
-    useDeleteScholarshipMutation
+    useDeleteScholarshipMutation,
+    useGetAllUserScholarshipsQuery,
+    useGetUserSingleScholarshipQuery
  } = scholarshipApi;

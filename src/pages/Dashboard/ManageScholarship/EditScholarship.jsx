@@ -34,7 +34,7 @@ const EditScholarship = () => {
   const { data: scholarshipCategories = [] } = useGetScholarshipCategoriesQuery();
   const { data: degrees = [] } = useGetDegreeCategoriesQuery();
   const { data: subjectCategories = [] } = useGetSubjectCategoriesQuery();
-  const [updateScholarship, { isLoading, isError, isSuccess }] = useUpdateScholarshipMutation();
+  const [updateScholarship, { isLoading, isError, isSuccess,error }] = useUpdateScholarshipMutation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,11 +45,11 @@ const EditScholarship = () => {
         ...formData,
         universityName: scholarship.universityName,
         image: scholarship.image,
-        scholarshipCategory: scholarship.scholarshipCategory,
-        degree: scholarship.degree,
+        scholarshipCategory: scholarship.scholarshipCategory?._id,
+        degree: scholarship.degree?._id,
         location: scholarship.location,
         applicationDeadline: deadlineDate,
-        subjectCategory: scholarship.subjectCategory,
+        subjectCategory: scholarship.subjectCategory?._id,
         fees: scholarship.fees,
         stipend: scholarship.stipend,
         serviceCharge: scholarship.serviceCharge,
@@ -68,6 +68,7 @@ const EditScholarship = () => {
     }
     if (isError) {
       toast.error('Failed to update scholarship');
+      console.log(error?.data.message)
     }
   }, [isSuccess, isError, navigate]);
 
@@ -95,6 +96,7 @@ const EditScholarship = () => {
     data.append('worldRank', formData.worldRank);
     data.append('description', formData.description);
    
+    console.log(formData.subjectCategory)
 
     try {
      dispatch(updateScholarship({ id, data }));

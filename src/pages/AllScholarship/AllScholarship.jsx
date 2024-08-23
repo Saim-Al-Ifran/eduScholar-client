@@ -1,34 +1,27 @@
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import ScholarshipCard from "../../components/Home/ScholarshipCard";
 import { Button } from "@material-tailwind/react";
-
-
-const scholarshipsData = [
-  {
-    universityName: "Harvard University",
-    universityLogo: "https://cdn-fieah.nitrocdn.com/gPcagixaUBxZFGSNjoZhotFrtQtDJGWz/assets/images/optimized/rev-22d07d8/scholarly.co/wp-content/uploads/2022/10/t.jpg",
-    category: "Undergraduate",
-    location: "Cambridge, MA, USA",
-    deadline: "2024-08-15",
-    subjectCategory: "Engineering",
-    applicationFees: 50,
-    rating: 4.8,
-  },
-  {
-    universityName: "Stanford University",
-    universityLogo: "https://images.shiksha.com/mediadata/images/1533535408phpRuopAS.jpeg",
-    category: "Graduate",
-    location: "Stanford, CA, USA",
-    deadline: "2024-09-01",
-    subjectCategory: "Business",
-    applicationFees: 75,
-    rating: 4.7,
-  },
-  // Add more scholarships here...
-]
+import { useGetAllUserScholarshipsQuery } from "../../features/scholarship/scholarshipApi";
+import { FadeLoader } from 'react-spinners';
 
 const AllScholarship = () => {
-  
+  const { data: scholarshipsData = { data: [] }, isLoading } = useGetAllUserScholarshipsQuery();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <FadeLoader color="#4CAF50" size={50} />
+      </div>
+    );
+  }
+
+  const filteredScholarships = scholarshipsData.data.filter((scholarship) =>
+    scholarship.universityName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    scholarship.subjectCategory.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <>
       <Helmet>
@@ -43,6 +36,8 @@ const AllScholarship = () => {
               type="text"
               className="px-4 py-2 border border-gray-300 rounded-l-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Search for scholarships..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <Button
               type="button"
@@ -55,10 +50,10 @@ const AllScholarship = () => {
           </div>
         </div>
 
-        {scholarshipsData.length > 0 ? (
+        {filteredScholarships.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {scholarshipsData.map((scholarship, index) => (
-              <ScholarshipCard key={index} {...scholarship} />
+            {filteredScholarships.map((scholarship) => (
+              <ScholarshipCard key={scholarship._id} {...scholarship} />
             ))}
           </div>
         ) : (
@@ -67,7 +62,6 @@ const AllScholarship = () => {
           </div>
         )}
       </div>
- 
     </>
   );
 };

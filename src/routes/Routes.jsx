@@ -12,19 +12,26 @@ import UserManagement from '../pages/Dashboard/User/AllUser';
 import Login from '../pages/Dashboard/Login/Login';
 import AdminOrModRoute from './AdminOrModRoute';
 import AdminRoute from './AdminRoute';
+import PrivateRoute from './PrivateRoute';
 import AddScholarship from '../pages/Dashboard/ManageScholarship/AddScholarship';
 import EditScholarship from '../pages/Dashboard/ManageScholarship/EditScholarship';
 import UserLogin from '../pages/Login/Login';
 import UserRegistration from '../pages/UserRegistration/UserRegistration';
 
 const AppRouter = () => {
+  
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Main />}>
           <Route index element={<Home />} />
           <Route path="all_scholarship" element={<AllScholarship />} />
-          <Route path="scholarship/:id" element={<ScholarshipDetails />} />
+          <Route path="scholarship/:id" element={
+            <PrivateRoute>
+                <ScholarshipDetails />
+            </PrivateRoute>
+           
+            }/>
         </Route>
 
          {/*------------------  route for admin moderators ----------------------*/}

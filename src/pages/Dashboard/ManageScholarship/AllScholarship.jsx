@@ -108,7 +108,7 @@ const AllScholarship = () => {
                   <td className="py-2 px-4 border-b">{scholarship.universityName}</td>
                   <td className="py-2 px-4 border-b">{scholarship.subjectCategory?.name || 'N/A'}</td>
                   <td className="py-2 px-4 border-b">{scholarship.degree?.name || 'N/A'}</td>
-                  <td className="py-2 px-4 border-b">{scholarship.fees} TK</td>
+                  <td className="py-2 px-4 border-b">${scholarship.fees}</td>
                   <td className="py-2 px-4 border-b">
                     <Link to={`edit_scholarship/${scholarship._id}`}>
                       <Button color="blue" className="mr-[1rem]">

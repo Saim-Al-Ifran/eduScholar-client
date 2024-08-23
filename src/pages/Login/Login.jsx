@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardBody, Input, Button, Typography } from '@material-tailwind/react';
 import { FcGoogle } from 'react-icons/fc';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useUserLoginMutation } from '../../features/auth/user/userAuthApi';
 import toast from 'react-hot-toast';
@@ -17,6 +17,7 @@ const UserLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const location = useLocation();
   const [isLoadingGoogle,setIsLoadingGoogle] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const UserLogin = () => {
   useEffect(()=>{
       if(isSuccess){
           toast.success('login successfull');
-          navigate('/');
+          navigate(location?.state ? location.state : '/');
       }
       if(isError){
         toast.error(error?.data?.message);

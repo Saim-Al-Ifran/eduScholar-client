@@ -12,6 +12,13 @@ export const applicationApi = apiSlice.injectEndpoints({
                 {type:'Application', id}
             ]
         }),
+        applyForApplication: builder.mutation({
+             query:({data})=>({
+                  url:`/eduScholar-administration/dashboard/user/applications`,
+                  method:'POST',
+                  body:data
+             })
+        }),
         addFeedBack: builder.mutation({
             query: ({ id, data }) => ({
                 url: `/eduScholar-administration/dashboard/admin/applied_applications/${id}/feedback`,
@@ -60,5 +67,6 @@ export const {
     useAddFeedBackMutation,
     useCancelApplicationMutation,
     useChangeApplicationStatusMutation,
-    useDeleteApplicationMutation
+    useDeleteApplicationMutation,
+    useApplyForApplicationMutation
 } = applicationApi;

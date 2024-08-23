@@ -4,7 +4,7 @@ import { Card, CardBody, Input, Button, Typography } from "@material-tailwind/re
 import { useAdminLoginMutation } from "../../../features/auth/admin/authApi";
 import useJwtDecode from "../../../hooks/useDecode";
 import { Toaster, toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useUserRoles from "../../../hooks/useIsAdmin";
 import { Helmet } from "react-helmet";
  
@@ -17,6 +17,7 @@ const Login = () => {
   const [success, setSuccess] = useState(false);
   const [adminLogin, { data, isError, isLoading, isSuccess, error: errorRes }] = useAdminLoginMutation();
   const { decodedToken, tokenError } = useJwtDecode(token);
+  const location = useLocation()
   const navigate = useNavigate();
   const {isAdmin,isModerator} = useUserRoles();
   const onSubmit = (formData) => {
@@ -29,14 +30,15 @@ const Login = () => {
 
   if(isAdmin || isModerator){
      navigate("/dashboard");
+     
   }
 
   useEffect(() => {
     if (isSuccess && data) {
       setToken(data.token);
       toast.success('Login successfull');
-      navigate("/dashboard");
-      
+      navigate(location?.state ? location.state : '/dashboard');
+            
     } else if (isError && errorRes) {
      toast.error(errorRes.data.message);
     }

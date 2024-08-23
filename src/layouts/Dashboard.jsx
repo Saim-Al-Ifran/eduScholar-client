@@ -6,9 +6,9 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <div className="flex-1 flex flex-col ml-64"> {/* Adjusted margin-left */}
+      <div className="flex-1 flex flex-col ml-64">  
         <TopNavBar />
-        <div className="overflow-auto p-4 flex-1"> {/* Ensure content area can scroll */}
+        <div className="overflow-auto p-4 flex-1">  
           <Outlet />
         </div>
       </div>
