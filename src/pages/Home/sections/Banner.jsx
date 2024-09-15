@@ -32,7 +32,7 @@ const Banner = () => {
               Discover Our Courses
             </h2>
             <p className="text-white text-lg mb-6">
-              Elevate your knowledge with our expertly crafted courses.
+              Seamlessly manage event schedules, guests, and more.
             </p>
             <Button
               size="lg"

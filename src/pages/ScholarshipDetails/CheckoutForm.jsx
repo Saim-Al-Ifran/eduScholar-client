@@ -54,6 +54,8 @@ const CheckoutForm = ({ closeModal, scholarship }) => {
     const createPaymentIntent = async () => {
       try {
         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/payment/create-payment-intent`, { price: totalAmount });
+        console.log(res);
+        
         setClientSecret(res.data.clientSecret);
       } catch (err) {
         console.error(err);
