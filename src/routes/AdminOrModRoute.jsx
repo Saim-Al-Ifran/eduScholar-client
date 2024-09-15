@@ -4,11 +4,11 @@ import useUserRoles from "../hooks/useIsAdmin";
 
 
 const AdminOrModRoute = ({ children }) => {
-    const { isAdmin, isModerator } = useUserRoles();
+    const { isAdmin, isModerator,loading  } = useUserRoles();
     const isAuthenticated = Cookies.get('token');
     const location = useLocation();
 
-    if (isAuthenticated && isAdmin === false && isModerator === false   ) {
+    if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
                 <span className="loading loading-dots loading-lg"></span>
@@ -16,13 +16,12 @@ const AdminOrModRoute = ({ children }) => {
         );
     }
 
-    if (isAuthenticated && (isAdmin || isModerator)) {
-        return children;
+    if (!isAuthenticated || (!isAdmin && !isModerator)) {
+
+        return  <Navigate state={location.pathname} to="/dashboard/login"></Navigate>;
+
     }
-
-
-    return   <Navigate state={location.pathname} to="/dashboard/login"></Navigate>;
-
+    return children;
     
 };
 

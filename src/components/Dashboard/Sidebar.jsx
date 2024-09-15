@@ -4,9 +4,9 @@ import useUserRoles from '../../hooks/useIsAdmin';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const location = useLocation();
-  const { isAdmin, isModerator } = useUserRoles();
-
+  
+  const { isAdmin, isModerator} = useUserRoles();
+  console.log(isAdmin)
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -101,6 +101,7 @@ const Sidebar = () => {
                 </NavLink>
               </li>
             )}
+ 
           </ul>
         </nav>
       </div>
