@@ -57,7 +57,13 @@ const AppRouter = () => {
               
           }/>
         </Route>
- 
+        <Route path="dashboard/users" element={
+               <PrivateRoute>
+                    <UserDashboard/>
+               </PrivateRoute>
+         }>
+
+        </Route>
 
         <Route path='/dashboard/login' element={<Login/>} />
         <Route path='/login' element={<UserLogin/>} />

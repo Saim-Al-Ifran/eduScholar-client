@@ -3,17 +3,28 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { userLoggedOut } from '../../features/auth/admin/authSlice';
 import toast from 'react-hot-toast';
+import useUserRoles from '../../hooks/useIsAdmin';
  
 
 const TopNavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const {isAdmin,isModerator,isStudent} = useUserRoles()
   const handleLogout = () => {
-    Cookies.remove('token');
-    dispatch(userLoggedOut());
-    toast.success("successfully logout");
-    navigate('/dashboard/login');
+    if(isAdmin || isModerator){
+      Cookies.remove('token');
+      dispatch(userLoggedOut());
+      toast.success("successfully logout");
+      navigate('/dashboard/login');
+    }
+    if((isStudent)){
+      Cookies.remove('token');
+      dispatch(userLoggedOut());
+      toast.success("successfully logout");
+      navigate('/');
+    }
+ 
+
   };
 
   return (

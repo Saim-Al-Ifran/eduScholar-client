@@ -20,10 +20,11 @@ const AdminRoute = ({ children }) => {
     if (isAuthenticated && !isAdmin) {
         return <Navigate state={location.pathname} to="/dashboard/login"  />;
     }
-
+  
     if (isAuthenticated && isAdmin) {
         return children;
     }
+ 
 
     return   <Navigate state={location.pathname} to="/dashboard/login"></Navigate>;
 
