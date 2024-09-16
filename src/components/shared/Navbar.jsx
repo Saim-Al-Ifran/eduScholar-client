@@ -83,6 +83,12 @@ const Navbar = () => {
             <li className={`p-4 border-b-2 border-green-500 duration-200 cursor-pointer ${isActive('/all_scholarship')}`}>
               <Link to="/all_scholarship"><i className="fa-solid fa-graduation-cap mr-1"></i>All Scholarship</Link>
             </li>
+            {getUser.user && (
+           <li className={`p-4 border-b-2 border-green-500 duration-200 cursor-pointer ${isActive('/my_applications')}`}>
+           <Link to="/my_applications"><i class="fa-solid fa-envelope mr-1"></i>My Applications</Link>
+         </li>
+            )}
+ 
           </ul>
         </nav>
         <div className="md:hidden flex items-center">
@@ -134,6 +140,9 @@ const Navbar = () => {
               <li className={`p-4 border-b-2 border-green-500 duration-200 cursor-pointer ${isActive('/all_scholarship')}`}>
                 <Link to="/all_scholarship" onClick={toggleMenu}><i className="fa-solid fa-graduation-cap mr-1"></i>All Scholarship</Link>
               </li>
+              <li className={`p-4 border-b-2 border-green-500 duration-200 cursor-pointer ${isActive('/my_applications')}`}>
+           <Link to="/my_applications"><i class="fa-solid fa-envelope mr-1"></i>My Applications</Link>
+         </li>
               <li className="p-4 w-full text-center">
                 {getUser.user ? (
                   <Button color="green" onClick={toggleMenu}><i className="fa-solid fa-user mr-1"></i>Profile</Button>

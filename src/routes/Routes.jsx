@@ -18,7 +18,7 @@ import EditScholarship from '../pages/Dashboard/ManageScholarship/EditScholarshi
 import UserLogin from '../pages/Login/Login';
 import UserRegistration from '../pages/UserRegistration/UserRegistration';
 import UserDashboard from '../layouts/UserDashboard';
-
+import UserApplication from '../pages/UserApplication/UserApplication';
 const AppRouter = () => {
   
   return (
@@ -33,10 +33,14 @@ const AppRouter = () => {
             </PrivateRoute>
            
             }/>
+            <Route path="my_applications" element={
+              <PrivateRoute>
+                  <UserApplication/>
+              </PrivateRoute>
+              
+            }/>
         </Route>
-
          {/*------------------  route for admin moderators ----------------------*/}
-  
         <Route path="dashboard" element={
                <AdminOrModRoute>
                  <Dashboard />

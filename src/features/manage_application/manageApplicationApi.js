@@ -6,6 +6,9 @@ export const applicationApi = apiSlice.injectEndpoints({
             query: () => '/eduScholar-administration/dashboard/admin/applied_applications/',
             providesTags:['Applications']
         }),
+        getStudentApplication: builder.query({
+               query:()=>'/eduScholar-administration/dashboard/user/applications'
+        }),
         getSingleApplication: builder.query({
             query: (id) => `/eduScholar-administration/dashboard/admin/applied_applications/${id}`,
             providesTags:(result,error,id)=>[
@@ -20,7 +23,7 @@ export const applicationApi = apiSlice.injectEndpoints({
              })
         }),
         addFeedBack: builder.mutation({
-            query: ({ id, data }) => ({
+           query: ({ id, data }) => ({
                 url: `/eduScholar-administration/dashboard/admin/applied_applications/${id}/feedback`,
                 method: 'PATCH',
                 body: data,
@@ -64,6 +67,7 @@ export const applicationApi = apiSlice.injectEndpoints({
 export const {
     useGetAllApplicationQuery,
     useGetSingleApplicationQuery,
+    useGetStudentApplicationQuery,
     useAddFeedBackMutation,
     useCancelApplicationMutation,
     useChangeApplicationStatusMutation,
